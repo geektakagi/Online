@@ -8,7 +8,8 @@ public class ChatServer
 {
 	static final int DEFAULT_PORT = 10000;
 	static Vector connections;
-
+	static ServerSocket serverSocket;
+	
 	static Hashtable userTable = null;
 	static random = null;
 
