@@ -1,6 +1,9 @@
 package onchat;
 
-class client()
+import java.net.*;
+import java.io.*;
+
+public class client
 {
 	static void main()
 	{
