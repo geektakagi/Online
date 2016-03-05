@@ -1,117 +1,164 @@
+
 package onchat;
+// チャットサーバChatServer.java
+// このプログラムは,チャットのサーバプログラムです
+// 使い方java ChatServer [ポート番号]
+// ポート番号を省略すると,ポート番号6000 番を使います
+// 起動の例java ChatServer
+// 終了にはコントロールC を入力してください
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
+// このサーバへの接続にはTelnet.javaなどを使ってください
+// 接続を止めたいときには,行頭でquitと入力してください
 
-public class ChatServer 
-{
-	static final int DEFAULT_PORT = 10000;
-	static Vector connections;
+// ライブラリの利用
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.Enumeration;
+import java.util.Vector;
+
+
+	// mainメソッド
+	// サーバソケットを作り,クライアントからの接続を待ち受けます
+// ChatServerクラス
+public class ChatServer {
+	static final int DEFAULT_PORT = 6000;//ポート番号省略時は6000 番を使います
 	static ServerSocket serverSocket;
-	
-	static Hashtable userTable = null;
-	static random = null;
+	static Vector connections;
 
-	// クライアントとの接続をVectorオブジェクトconnectionsに登録
-	public static void addConnection(Socket sock){
-		if (connections == null) {
-			connections = new Vector();	
-		}
-		connections.addElement(sock);
-	}
 
-	// クライアントとの接続をconnectionsから削除
-	public static void deleteConnection(Socket sock) {
-		if (connections != null) {
-			connections.removeElement(sock);
-		}
-	}
+	public static void main(String[] arg){
 
-	public static void loginUser(String name) {
-		if (userTable == null) {
-			userTable = new Hashtable();
+		System.out.println("じゃんぱらへようこそaaaaaaaaaaaaaa");
+		int port = DEFAULT_PORT ;
+		if (arg.length > 0) port = Integer.parseInt(arg[0]) ;
+
+		try
+		{
+			serverSocket = new ServerSocket(port);
 		}
 
-	}
-
-	// クライアントにメッセージを送る
-	public static void sendAll(String str) {
-		if (connections != null ) {
-			// すべてのconnectionに対して出力
-			for (Enumeration enu = connections.elements(); enu.hasMoreElements() ; ) {
-				try {
-					PrintWriter out = new PrintWriter(((Socket) enu.nextElement()).getOutputStream());
-					out.println(str);
-					out.flush();
-				} catch (IOException ex) {	}
-			}	
-		}
-		System.out.println(str);
-	}
-
-	// サーバソケットの作成とクライアント接続の処理
-	public static void main(String[] args) {
-		int port = DEFAULT_PORT;
-		if (args.length > 0) 
-			port = Integer.parseInt(args[0]);
-
-		try {
-			serverSocket = new ServerSocket(DEFAULT_PORT);
-		} catch (IOException e)	{
-			System.err.println("Server Socketを作成できませんでした");
+		catch (IOException e)
+		{
+			System.err.println(e);
 			System.exit(1);
 		}
 
-		while (true) {
-			try {
-				// コネクションの登録
+		while (true)
+		{
+			try
+			{
 				Socket cs = serverSocket.accept();
 				addConnection(cs);
-
-				// クライアントの処理スレッド
-				Thread ct = new Thread(new ClientProc(cs));
+				Thread ct = new Thread(new clientProc(cs));
 				ct.start();
-
-			} catch (IOException e) {
-				System.err.println("クライアントの接続エラーです。")
+			}
+			catch (IOException e)
+			{
+				System.err.println(e);
 			}
 		}
 	}
-}
 
-class ClientProc implements Runnable {
-	Socket sock;		// クライアント接続用ソケット
-	BufferdReader in;	// 入力
-	PrintWriter out;	// 出力
-	String name = null;	// クライアントの名前
 
-	// コンストラクタ
-	public clientProc(Socket sock) throws IOException {
-		this.sock = sock;
-		in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-		out = new PrintWriter(sock.getOutputStream());
+	// sendAllメソッド
+	// 各クライアントにメッセージを送ります
+	public static void sendAll(String s)
+	{
+		if (connections != null)
+		{// コネクションがあれば実行します
+			for (Enumeration e = connections.elements();
+					e.hasMoreElements() ;)
+			{
+				try
+				{
+					PrintWriter pw = new PrintWriter(((Socket) e.nextElement()).getOutputStream());
+					pw.println(s);
+					pw.flush();
+				}
+				catch (IOException ex){}
+			}
+		}
+		System.out.println(s);
 	}
 
-	// メイン処理
-	public void run(){
+	// addConnectionメソッド
+	// クライアントとの接続を追加します
+
+	public static void addConnection(Socket s)
+	{
+		if (connections == null)
+		{
+			connections = new Vector();
+		}
+		connections.addElement(s);
+	}
+
+	// deleteConnectionメソッド
+	// あるクライアントとのコネクションを削除します
+
+	public static void deleteConnection(Socket s)
+	{
+		if (connections != null)
+		{
+			connections.removeElement(s);
+		}
+	}
+
+}
+
+// clientProcクラス
+// クライアント処理用スレッドのひな形です
+
+class clientProc implements Runnable
+	{
+	Socket s;
+	BufferedReader in;
+	PrintWriter out;
+	String name = null;
+	ChatServer server = null ;
+
+	//コンストラクタ
+	public clientProc(Socket s) throws IOException
+		{
+			this.s = s;
+			in = new BufferedReader(new InputStreamReader(
+			  s.getInputStream()));
+			out = new PrintWriter(s.getOutputStream());
+		}
+
+	// スレッドの本体
+	// 各クライアントとの接続処理を行います
+	public void run()
+	{
 		try {
-			while (name == null){
+			while (name == null)
+			{
 				out.print("お名前は？: ");
 				out.flush();
 				name = in.readLine();
 			}
+
 			String line = in.readLine();
-			while (!"quit".equals(line)){
+			while (!"quit".equals(line))
+			{
 				ChatServer.sendAll(name + "> " +line);
 				line = in.readLine();
 			}
-			ChatServer.deleteConnection(sock);
-			sock.close();
-		}catch (IOException e){
-			try {
-				sock.close();
-			}catch (IOException e2){}
+
+			ChatServer.deleteConnection(s);
+			s.close();
+		}
+		catch (IOException e)
+		{
+			try
+			{
+				s.close();
+			}
+			catch (IOException e2){}
 		}
 	}
 }
