@@ -33,7 +33,6 @@ public class ChatServer {
 
 	public static void main(String[] arg){
 
-		System.out.println("じゃんぱらへようこそaaaaaaaaaaaaaa");
 		int port = DEFAULT_PORT ;
 		if (arg.length > 0) port = Integer.parseInt(arg[0]) ;
 
@@ -47,7 +46,10 @@ public class ChatServer {
 			System.err.println(e);
 			System.exit(1);
 		}
-
+		
+		Thread com = new Thread(new console());
+		com.start();
+		
 		while (true)
 		{
 			try
@@ -62,11 +64,6 @@ public class ChatServer {
 				System.err.println(e);
 			}
 		}
-	}
-
-	public static void deleteallconnections()
-	{
-
 	}
 
 	// sendAllメソッド
@@ -153,7 +150,6 @@ class clientProc implements Runnable
 				ChatServer.sendAll(name + "> " +line);
 				line = in.readLine();
 			}
-
 			ChatServer.deleteConnection(s);
 			s.close();
 		}
@@ -166,10 +162,40 @@ class clientProc implements Runnable
 			catch (IOException e2){}
 		}
 	}
+	
+	
+	private void deleteConnection()
+	{
+		try 
+		{
+			ChatServer.deleteConnection(s);
+			s.close();
+		}
+		catch (IOException e){}
+	}
+/*
+	public static void deleteallconnections(){
+		deleteConnection();
+	}
+	
+	
+	public static void deleteallconnections()
+	{
+		if (connections != null)
+		{// コネクションがあれば実行します
+			for (Enumeration e = connections.elements();
+					e.hasMoreElements() ;)
+			{
+					connections.removeElement(s);
+			}
+		}
+	}
+	*/
+	
 }
 
 //コマンド
-class console
+class console implements Runnable
 	{
 		public void run(){
 			Scanner scan = new Scanner(System.in);
@@ -177,9 +203,20 @@ class console
 
 			while(!"exit".equals(com))
 			{
+				switch(com)
+				{
+
+					case "list":
+					{
+						System.out.println("list");
+					}
+
+					
+				}
 				
+				com=scan.next();
 			}
-			ChatServer.deleteallconnections();
+			//clientProc.deleteallconnections();
 			System.exit(0);
 		}
 	}
