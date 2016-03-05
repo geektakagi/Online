@@ -18,6 +18,7 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Enumeration;
+import java.util.Scanner;
 import java.util.Vector;
 
 
@@ -63,6 +64,10 @@ public class ChatServer {
 		}
 	}
 
+	public static void deleteallconnections()
+	{
+
+	}
 
 	// sendAllメソッド
 	// 各クライアントにメッセージを送ります
@@ -162,3 +167,19 @@ class clientProc implements Runnable
 		}
 	}
 }
+
+//コマンド
+class console
+	{
+		public void run(){
+			Scanner scan = new Scanner(System.in);
+			String com = scan.next();
+
+			while(!"exit".equals(com))
+			{
+				
+			}
+			ChatServer.deleteallconnections();
+			System.exit(0);
+		}
+	}
