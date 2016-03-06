@@ -33,6 +33,9 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JMenu;
 
 public class Client extends JFrame {
 
@@ -50,6 +53,7 @@ public class Client extends JFrame {
 					e.printStackTrace();
 				}
 			}
+			
 		});
 	}
 
@@ -59,6 +63,15 @@ public class Client extends JFrame {
 		String Name = new String("Renet");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 640, 920);
+		
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		
+		JMenu mnConnections = new JMenu("Connections");
+		menuBar.add(mnConnections);
+		
+		JMenuItem mntmConnect = new JMenuItem("Connect");
+		mnConnections.add(mntmConnect);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
