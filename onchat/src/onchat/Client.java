@@ -2,35 +2,35 @@ package onchat;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import java.awt.GridLayout;
 import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import java.awt.Label;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.KeyAdapter;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.KeyEvent;
+import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JTextPane;
 import javax.swing.JSplitPane;
 import javax.swing.BoxLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.Label;
 import javax.swing.JTextArea;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.border.LineBorder;
-import java.awt.Color;
-import javax.swing.JLabel;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import javax.swing.JScrollBar;
 import javax.swing.SwingConstants;
-import java.awt.Font;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import javax.swing.JLabel;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JMenu;
@@ -77,6 +77,7 @@ public class Client extends JFrame {
 		contentPane.setLayout(null);
 		
 		textField = new JTextField();
+
 		textField.setFont(new Font("Tahoma", Font.PLAIN, 40));
 		
 		textField.setBounds(17, 17, 486, 45);
@@ -104,7 +105,11 @@ public class Client extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e){
 				// connect to the server
-				
+				Connection c = new Connection("127.0.0.0");
+
+				String text = textField.getText();
+				InputStream is = new ByteArrayInputStream(text.getBytes("UTF-8"));
+
 				JOptionPane.showMessageDialog(null, "Connected to the server");
 			}
 		});
