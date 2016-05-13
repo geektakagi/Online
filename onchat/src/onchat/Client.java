@@ -87,6 +87,9 @@ public class Client extends JFrame {
 		JMenuItem mntmConnect = new JMenuItem("Connect");
 		mnConnections.add(mntmConnect);
 		
+		JMenuItem mntmConnectionInfo = new JMenuItem("Connection info");
+		mnConnections.add(mntmConnectionInfo);
+		
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
