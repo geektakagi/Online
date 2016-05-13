@@ -49,6 +49,14 @@ public class Connection {
 		}
 	}
 
+	public InputStream getServerInputStream() {
+		return serverInput;
+	}
+
+	public OutputStream getServerOutputStream() {
+		return serverOutput;
+	}
+
 	// openConnectionメソッド
 	//アドレスとポート番号からソケットを作りストリームを作成します
 	public void openConnection()
@@ -65,15 +73,14 @@ public class Connection {
 	public void main_proc()
 		throws IOException
 	{
-		try {
-			// スレッド用クラスStreamConnectorのオブジェクトを生成します
-			StreamConnector stdin_to_socket =
-				new StreamConnector(System.in, serverOutput);
-			StreamConnector socket_to_stdout =
-				new StreamConnector(serverInput, System.out);
-			// スレッドを生成します
-			Thread input_thread = new Thread(stdin_to_socket);
-			Thread output_thread = new Thread(socket_to_stdout);
+		try {			
+			ChatStringTransmitter textfieldToSocket 
+				= new ChatStringTransmitter(serverOutput);
+			ChatStringReceiver socketToTextfield
+				= new ChatStringReceiver(serverInput);			
+
+			Thread input_thread = new Thread(textfieldToSocket);
+			Thread output_thread = new Thread(socketToTextfield);
 			// スレッドを起動します
 			input_thread.start();
 			output_thread.start();
