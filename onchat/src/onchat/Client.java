@@ -113,6 +113,7 @@ public class Client extends JFrame {
 		contentPane.add(scrollPane);
 		
 		label = new JLabel("");
+		label.setVerticalAlignment(SwingConstants.TOP);
 		label.setFont(new Font("Meiryo", Font.PLAIN, 25));
 		scrollPane.setViewportView(label);
 		
