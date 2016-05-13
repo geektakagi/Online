@@ -87,7 +87,7 @@ public class ChatServer {
 		System.out.println(s);
 	}
 
-	// addConnectionメソッド
+	// addConnectionメソッド 
 	// クライアントとの接続を追加します
 
 	public static void addConnection(Socket s)

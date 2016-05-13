@@ -129,7 +129,7 @@ public class Client extends JFrame {
 					c.openConnection();
 					c.main_proc();
 					
-					JOptionPane.showMessageDialog(null, "Connected to the server");
+					Client.chatWrite("Connected to the server");
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
