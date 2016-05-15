@@ -31,6 +31,10 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JMenu;
+import javax.swing.JOptionPane;
 
 public class Client extends JFrame {
 
@@ -48,6 +52,7 @@ public class Client extends JFrame {
 					e.printStackTrace();
 				}
 			}
+			
 		});
 	}
 
@@ -57,6 +62,15 @@ public class Client extends JFrame {
 		String Name = new String("Renet");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 640, 920);
+		
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		
+		JMenu mnConnections = new JMenu("Connections");
+		menuBar.add(mnConnections);
+		
+		JMenuItem mntmConnect = new JMenuItem("Connect");
+		mnConnections.add(mntmConnect);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -69,8 +83,11 @@ public class Client extends JFrame {
 		contentPane.add(textField);
 		textField.setColumns(30);
 		
-		JButton btnSend = new JButton("Send");
-		
+		JButton btnSend = new JButton("Send");		
+		btnSend.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 
 		btnSend.setBounds(520, 32, 75, 31);
 		contentPane.add(btnSend);
@@ -82,7 +99,15 @@ public class Client extends JFrame {
 		JLabel label = new JLabel("");
 		label.setFont(new Font("Meiryo", Font.PLAIN, 25));
 		scrollPane.setViewportView(label);
-		label.setVerticalAlignment(SwingConstants.TOP);
+		
+		mntmConnect.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e){
+				// connect to the server
+				
+				JOptionPane.showMessageDialog(null, "Connected to the server");
+			}
+		});
 		
 		
 		btnSend.addMouseListener(new MouseAdapter() {
