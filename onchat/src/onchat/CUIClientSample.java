@@ -9,8 +9,6 @@
 // 終了にはコントロールC を入力してください
 
 // ライブラリの利用
-package onchat;
-
 import java.net.*;
 import java.io.*;
 

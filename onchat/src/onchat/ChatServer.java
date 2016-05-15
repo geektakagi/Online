@@ -26,7 +26,7 @@ import java.util.Vector;
 	// サーバソケットを作り,クライアントからの接続を待ち受けます
 // ChatServerクラス
 public class ChatServer {
-	static final int DEFAULT_PORT = 6000;//ポート番号省略時は6000 番を使います
+	static final int DEFAULT_PORT = 4820;//ポート番号省略時は6000 番を使います
 	static ServerSocket serverSocket;
 	static Vector connections;
 
@@ -87,7 +87,7 @@ public class ChatServer {
 		System.out.println(s);
 	}
 
-	// addConnectionメソッド
+	// addConnectionメソッド 
 	// クライアントとの接続を追加します
 
 	public static void addConnection(Socket s)
