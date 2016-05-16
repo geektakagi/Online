@@ -61,13 +61,14 @@ public class Client extends JFrame {
 	}
 
 	public static String getTextFieldStrings() {
-		String returnStr = new String(sendStr);
+		String returnStr = sendStr;
 		sendStr = "";
+		
 		return returnStr;
 	}
 
 	public static void chatWrite(String receiveStr){
-		String str = new String("<html>" + Name + " > "+ receiveStr + "<br>");
+		String str = new String("<html>" + " > "+ receiveStr + "<br>");
 		str += label.getText();
 		label.setText(str);
 	}
@@ -144,11 +145,12 @@ public class Client extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(textField.getText() != ""){
+					sendStr = textField.getText();
+					
 					String str = new String("<html>" + Name + " > "+ textField.getText() + "<br>");
 					str += label.getText();
 					label.setText(str);
 					textField.setText("");
-					sendStr = str;
 				}	
 			}
 		});
@@ -158,12 +160,13 @@ public class Client extends JFrame {
 			public void keyPressed(KeyEvent e) {
 				if(e.getKeyCode() == e.VK_ENTER){
 					if(textField.getText() != ""){
+						sendStr = textField.getText();
+						
 						String str = new String("<html>" + Name + " > "+ textField.getText() + "<br>");
 						str += label.getText();
 						label.setText(str);
 						textField.setText("");
 
-						sendStr = str;
 					}
 				}
 				

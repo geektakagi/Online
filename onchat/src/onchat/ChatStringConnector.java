@@ -21,9 +21,15 @@ class ChatStringTransmitter implements Runnable {
 				String sendStr = Client.getTextFieldStrings();
 				buff = sendStr.getBytes();
 				int strLen = sendStr.getBytes().length;
+				
+				if(sendStr.length() > 0){
+					Client.chatWrite("send message to the server. sendStr = " + sendStr);
+					Client.chatWrite("strLen = " + strLen);
+				}
 
 				if (strLen > 0)
 					dist.write(buff, 0, strLen);
+				
 			}
 			catch(Exception e){
 				e.printStackTrace();
