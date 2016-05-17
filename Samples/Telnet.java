@@ -1,4 +1,4 @@
-package onchat;
+
 
 // telnet プログラムTelnet.java
 // このプログラムは,指定されたアドレスのポートに標準入出力を接続します
