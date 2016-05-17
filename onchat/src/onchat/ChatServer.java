@@ -27,7 +27,7 @@ import java.util.Vector;
 public class ChatServer {
 	static final int DEFAULT_PORT = 4820;//ポート番号省略時は6000 番を使います
 	static ServerSocket serverSocket;
-	static Vector connections;
+	static Vector<Socket> connections;
 
 
 	public static void main(String[] arg){
@@ -74,7 +74,7 @@ public class ChatServer {
 	{
 		if (connections != null)
 		{// コネクションがあれば実行します
-			for (Enumeration e = connections.elements();
+			for (Enumeration<Socket> e = connections.elements();
 					e.hasMoreElements() ;)
 			{
 				try
@@ -96,7 +96,7 @@ public class ChatServer {
 	{
 		if (connections == null)
 		{
-			connections = new Vector();
+			connections = new Vector<Socket>();
 		}
 		connections.addElement(s);
 		
@@ -111,6 +111,7 @@ public class ChatServer {
 		if (connections != null)
 		{
 			connections.removeElement(s);
+			System.err.println("connection deleted:" + s);
 		}
 	}
 
@@ -171,7 +172,8 @@ class clientProc implements Runnable
 			catch (IOException e2){}
 		}
 	}
-	
+
+/*
 	
 	private void deleteConnection()
 	{
@@ -179,10 +181,11 @@ class clientProc implements Runnable
 		{
 			ChatServer.deleteConnection(s);
 			s.close();
+			
 		}
 		catch (IOException e){}
 	}
-/*
+	
 	public static void deleteallconnections(){
 		deleteConnection();
 	}
@@ -251,6 +254,7 @@ class console implements Runnable
 				
 				com=scan.next();
 			}
+			scan.close();
 			//clientProc.deleteallconnections();
 			System.exit(0);
 		}

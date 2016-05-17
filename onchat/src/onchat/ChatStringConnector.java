@@ -1,11 +1,9 @@
 ﻿package onchat;
 
-import java.net.*;
 import java.io.*;
 
 // Transmitter
 class ChatStringTransmitter implements Runnable {
-	// InputStream src = null;
 	OutputStream dist = null;
 
 	// コンストラクタで受け取る
@@ -44,7 +42,6 @@ class ChatStringTransmitter implements Runnable {
 // receiver
 class ChatStringReceiver implements Runnable {
 	InputStream src = null;
-	// OutputStream dist = null;
 
 	// コンストラクタで受け取る
 	public ChatStringReceiver(InputStream in){

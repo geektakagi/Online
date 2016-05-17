@@ -1,14 +1,6 @@
 package onchat;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
-import java.awt.GridLayout;
-import java.awt.FlowLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.Label;
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.ActionListener;
@@ -20,14 +12,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
 import javax.swing.JButton;
-import javax.swing.JTextPane;
-import javax.swing.JSplitPane;
-import javax.swing.BoxLayout;
-import javax.swing.JTextArea;
-import javax.swing.JList;
 import javax.swing.JScrollPane;
-import javax.swing.border.LineBorder;
-import javax.swing.JScrollBar;
 import javax.swing.SwingConstants;
 import javax.swing.JLabel;
 import javax.swing.JFrame;
@@ -35,10 +20,12 @@ import javax.swing.JPanel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JMenu;
-import javax.swing.JOptionPane;
 
 public class Client extends JFrame {
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2L;
 	private JPanel contentPane;
 	private JTextField textField;
 	private static JLabel label = new JLabel("");
@@ -158,7 +145,7 @@ public class Client extends JFrame {
 		textField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if(e.getKeyCode() == e.VK_ENTER){
+				if(e.getKeyCode() == KeyEvent.VK_ENTER){
 					if(textField.getText() != ""){
 						sendStr = textField.getText();
 						
