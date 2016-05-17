@@ -24,31 +24,6 @@ public class Connection {
 		this(host, DEFAULT_PORT); // デフォルトポートで接続
 	}
 
-	// TCP コネクションを開いて処理を開始します
-	public static void main(String[] args){
-		try {
-			Connection c = null;
-			// 引数の個数によってコンストラクタが異なります
-			switch (args.length){
-			case 1:// サーバアドレスのみの指定
-				c = new Connection(args[0]);
-				break;
-			case 2:// アドレスとポートの指定
-				c = new Connection(args[0], Integer.parseInt(args[1]));
-				break;
-			default:// 使い方が間違っている場合
-				System.out.println(
-					"usage: java Connection <host name> {<port number>}");
-				return;
-			}
-			c.openConnection();
-			c.main_proc();
-		}catch(Exception e){
-			e.printStackTrace();
-			System.exit(1);
-		}
-	}
-
 	public InputStream getServerInputStream() {
 		return serverInput;
 	}
