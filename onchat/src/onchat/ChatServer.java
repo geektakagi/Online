@@ -1,4 +1,3 @@
-
 package onchat;
 // チャットサーバChatServer.java
 // このプログラムは,チャットのサーバプログラムです
@@ -35,6 +34,8 @@ public class ChatServer {
 
 		int port = DEFAULT_PORT ;
 		if (arg.length > 0) port = Integer.parseInt(arg[0]) ;
+		
+		System.err.println("Server Starting...");
 
 		try
 		{
@@ -49,6 +50,7 @@ public class ChatServer {
 		
 		Thread com = new Thread(new console());
 		com.start();
+		System.err.println("Server Started");
 		
 		while (true)
 		{
@@ -97,6 +99,8 @@ public class ChatServer {
 			connections = new Vector();
 		}
 		connections.addElement(s);
+		
+		System.err.println("new connection added");
 	}
 
 	// deleteConnectionメソッド
@@ -110,13 +114,18 @@ public class ChatServer {
 		}
 	}
 
+	public static Vector<Socket> getConnections()
+	{
+		return connections;
+	}
+
 }
 
 // clientProcクラス
 // クライアント処理用スレッドのひな形です
 
 class clientProc implements Runnable
-	{
+{
 	Socket s;
 	BufferedReader in;
 	PrintWriter out;
@@ -209,8 +218,34 @@ class console implements Runnable
 					case "list":
 					{
 						System.out.println("list");
+						Vector<Socket> connections = ChatServer.getConnections();
+						if (connections != null)
+						{ // コネクションがあれば実行します
+							for (Enumeration<Socket> e = connections.elements();
+									e.hasMoreElements() ;)
+							{
+								System.out.println(e.nextElement());								
+							}
+						} 
+						else 
+						{
+							System.out.println("No connection.");
+						}		
+						break;
 					}
 
+					case "help":
+					{
+						System.out.println("list : display all connections.");	
+						System.out.println("help : display this help.");
+						break;
+					}
+
+					default:
+					{
+						System.out.println("unknown command");
+						System.out.println("show help use \"help\" command ");
+					}
 					
 				}
 				
