@@ -79,8 +79,9 @@ public class ChatServer {
 			{
 				try
 				{
+					String sendStr= new String(s.getBytes("UTF-8"), "UTF-8");
 					PrintWriter pw = new PrintWriter(((Socket) e.nextElement()).getOutputStream());
-					pw.println(s);
+					pw.println(sendStr);
 					pw.flush();
 				}
 				catch (IOException ex){}
@@ -157,7 +158,9 @@ class clientProc implements Runnable
 			String line = in.readLine();
 			while (!"quit".equals(line))
 			{
-				ChatServer.sendAll(name + "> " +line);
+				String sendStr = name + "> " + line;
+				sendStr = new String(sendStr.getBytes("UTF-8"), "UTF-8");
+				ChatServer.sendAll(sendStr);
 				line = in.readLine();
 			}
 			ChatServer.deleteConnection(s);

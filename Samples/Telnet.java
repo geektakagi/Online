@@ -1,45 +1,43 @@
+// telnet ãƒ—ãƒ­ã‚°ãƒ©ãƒ Telnet.java
+// ã“ã®ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã¯,æŒ‡å®šã•ã‚ŒãŸã‚¢ãƒ‰ãƒ¬ã‚¹ã®ãƒãƒ¼ãƒˆã«æ¨™æº–å…¥å‡ºåŠ›ã‚’æ¥ç¶šã—ã¾ã™
+// æ¥ç¶šå…ˆãŒtelnet ã®ãƒãƒ¼ãƒˆ(23ç•ª)ã®å ´åˆ,ãƒã‚´ã‚·ã‚¨ãƒ¼ã‚·ãƒ§ãƒ³ã‚’è¡Œã„ã¾ã™
+// ãƒã‚´ã‚·ã‚¨ãƒ¼ã‚·ãƒ§ãƒ³ã§ã¯,ã‚µãƒ¼ãƒã‹ã‚‰ã®è¦æ±‚ã‚’ã™ã¹ã¦æ–­ã‚Šã¾ã™
+// ä½¿ã„æ–¹ï¼ˆï¼‘ï¼‰ java Telnet ã‚µãƒ¼ãƒã‚¢ãƒ‰ãƒ¬ã‚¹ãƒãƒ¼ãƒˆç•ªå·
+// ä½¿ã„æ–¹ï¼ˆï¼’ï¼‰ java Telnet ã‚µãƒ¼ãƒã‚¢ãƒ‰ãƒ¬ã‚¹
+// ï¼ˆï¼’ï¼‰ã®å ´åˆ,ãƒãƒ¼ãƒˆç•ªå·23ç•ª(telnet)ã‚’ä»®å®šã—ã¾ã™
+// èµ·å‹•ã®ä¾‹java Telnet kiku.fuis.fukui-u.ac.jp
+// çµ‚äº†ã«ã¯ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«C ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„
 
-
-// telnet ƒvƒƒOƒ‰ƒ€Telnet.java
-// ‚±‚ÌƒvƒƒOƒ‰ƒ€‚Í,w’è‚³‚ê‚½ƒAƒhƒŒƒX‚Ìƒ|[ƒg‚É•W€“üo—Í‚ğÚ‘±‚µ‚Ü‚·
-// Ú‘±æ‚ªtelnet ‚Ìƒ|[ƒg(23”Ô)‚Ìê‡,ƒlƒSƒVƒG[ƒVƒ‡ƒ“‚ğs‚¢‚Ü‚·
-// ƒlƒSƒVƒG[ƒVƒ‡ƒ“‚Å‚Í,ƒT[ƒo‚©‚ç‚Ì—v‹‚ğ‚·‚×‚Ä’f‚è‚Ü‚·
-// g‚¢•ûi‚Pj java Telnet ƒT[ƒoƒAƒhƒŒƒXƒ|[ƒg”Ô†
-// g‚¢•ûi‚Qj java Telnet ƒT[ƒoƒAƒhƒŒƒX
-// i‚Qj‚Ìê‡,ƒ|[ƒg”Ô†23”Ô(telnet)‚ğ‰¼’è‚µ‚Ü‚·
-// ‹N“®‚Ì—ájava Telnet kiku.fuis.fukui-u.ac.jp
-// I—¹‚É‚ÍƒRƒ“ƒgƒ[ƒ‹C ‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢
-
-// ƒ‰ƒCƒuƒ‰ƒŠ‚Ì—˜—p
+// ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã®åˆ©ç”¨
 import java.net.*;
 import java.io.*;
 
-// TelnetƒNƒ‰ƒX
-// TelnetƒNƒ‰ƒX‚Í,ƒlƒbƒgƒ[ƒNÚ‘±‚ÌŠÇ—‚ğs‚¢‚Ü‚·
-// StreamConnectorƒNƒ‰ƒX‚ğ—p‚¢‚ÄƒXƒŒƒbƒhˆ—‚ğs‚¢‚Ü‚·
-// ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Í‚Qí—Ş‚ ‚è,g‚¢•û‚Ìi‚Pji‚Qj‚É‘Î‰‚µ‚Ä‚¢‚Ü‚·
+// Telnetã‚¯ãƒ©ã‚¹
+// Telnetã‚¯ãƒ©ã‚¹ã¯,ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯æ¥ç¶šã®ç®¡ç†ã‚’è¡Œã„ã¾ã™
+// StreamConnectorã‚¯ãƒ©ã‚¹ã‚’ç”¨ã„ã¦ã‚¹ãƒ¬ãƒƒãƒ‰å‡¦ç†ã‚’è¡Œã„ã¾ã™
+// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã¯ï¼’ç¨®é¡ã‚ã‚Š,ä½¿ã„æ–¹ã®ï¼ˆï¼‘ï¼‰ï¼ˆï¼’ï¼‰ã«å¯¾å¿œã—ã¦ã„ã¾ã™
 public class Telnet {
-	Socket serverSocket;//Ú‘±—pƒ\ƒPƒbƒg
-	public OutputStream serverOutput;//ƒlƒbƒgƒ[ƒNo—Í—pƒXƒgƒŠ[ƒ€
-	public BufferedInputStream serverInput;// “¯“ü—Í—pƒXƒgƒŠ[ƒ€
-	String host;// Ú‘±æƒT[ƒoƒAƒhƒŒƒX
-	int port; // Ú‘±æƒT[ƒoƒ|[ƒg”Ô†
+	Socket serverSocket;//æ¥ç¶šç”¨ã‚½ã‚±ãƒƒãƒˆ
+	public OutputStream serverOutput;//ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯å‡ºåŠ›ç”¨ã‚¹ãƒˆãƒªãƒ¼ãƒ 
+	public BufferedInputStream serverInput;// åŒå…¥åŠ›ç”¨ã‚¹ãƒˆãƒªãƒ¼ãƒ 
+	String host;// æ¥ç¶šå…ˆã‚µãƒ¼ãƒã‚¢ãƒ‰ãƒ¬ã‚¹
+	int port; // æ¥ç¶šå…ˆã‚µãƒ¼ãƒãƒãƒ¼ãƒˆç•ªå·
 
-	static final int DEFAULT_TELNET_PORT = 23;// telnet ‚Ìƒ|[ƒg”Ô†(23”Ô)
+	static final int DEFAULT_TELNET_PORT = 23;// telnet ã®ãƒãƒ¼ãƒˆç•ªå·(23ç•ª)
 
-	// ƒRƒ“ƒXƒgƒ‰ƒNƒ^i‚PjƒAƒhƒŒƒX‚Æƒ|[ƒg‚Ìw’è‚ª‚ ‚éê‡
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ï¼ˆï¼‘ï¼‰ã‚¢ãƒ‰ãƒ¬ã‚¹ã¨ãƒãƒ¼ãƒˆã®æŒ‡å®šãŒã‚ã‚‹å ´åˆ
 	public Telnet(String host, int port){
 		this.host = host;
 		this.port = port;
 	}
 
-	// ƒRƒ“ƒXƒgƒ‰ƒNƒ^i‚QjƒAƒhƒŒƒX‚Ìw’è‚Ì‚İ‚Ìê‡
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ï¼ˆï¼’ï¼‰ã‚¢ãƒ‰ãƒ¬ã‚¹ã®æŒ‡å®šã®ã¿ã®å ´åˆ
 	public Telnet(String host){
-		this(host, DEFAULT_TELNET_PORT);// telnet ƒ|[ƒg‚ğ‰¼’è
+		this(host, DEFAULT_TELNET_PORT);// telnet ãƒãƒ¼ãƒˆã‚’ä»®å®š
 	}
 
-	// openConnectionƒƒ\ƒbƒh
-	//ƒAƒhƒŒƒX‚Æƒ|[ƒg”Ô†‚©‚çƒ\ƒPƒbƒg‚ğì‚èƒXƒgƒŠ[ƒ€‚ğì¬‚µ‚Ü‚·
+	// openConnectionãƒ¡ã‚½ãƒƒãƒ‰
+	//ã‚¢ãƒ‰ãƒ¬ã‚¹ã¨ãƒãƒ¼ãƒˆç•ªå·ã‹ã‚‰ã‚½ã‚±ãƒƒãƒˆã‚’ä½œã‚Šã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚’ä½œæˆã—ã¾ã™
 	public void openConnection()
 		throws IOException,UnknownHostException
 	{
@@ -47,27 +45,27 @@ public class Telnet {
 		serverOutput = serverSocket.getOutputStream();
 		serverInput = new
 			BufferedInputStream(serverSocket.getInputStream());
-		// Ú‘±æ‚ªtelnet ƒ|[ƒg‚È‚ç,ƒlƒSƒVƒG[ƒVƒ‡ƒ“‚ğs‚¢‚Ü‚·
+		// æ¥ç¶šå…ˆãŒtelnet ãƒãƒ¼ãƒˆãªã‚‰,ãƒã‚´ã‚·ã‚¨ãƒ¼ã‚·ãƒ§ãƒ³ã‚’è¡Œã„ã¾ã™
 		if (port == DEFAULT_TELNET_PORT){
 			negotiation(serverInput, serverOutput);
 		}
 	}
 
-	// main_procƒƒ\ƒbƒh
-	// ƒlƒbƒgƒ[ƒN‚Æ‚Ì‚â‚è‚Æ‚è‚ğ‚·‚éƒXƒŒƒbƒh‚ğƒXƒ^[ƒg‚³‚¹‚Ü‚·
+	// main_procãƒ¡ã‚½ãƒƒãƒ‰
+	// ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ã¨ã®ã‚„ã‚Šã¨ã‚Šã‚’ã™ã‚‹ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’ã‚¹ã‚¿ãƒ¼ãƒˆã•ã›ã¾ã™
 	public void main_proc()
 		throws IOException
 	{
 		try {
-			// ƒXƒŒƒbƒh—pƒNƒ‰ƒXStreamConnector‚ÌƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ‚Ü‚·
+			// ã‚¹ãƒ¬ãƒƒãƒ‰ç”¨ã‚¯ãƒ©ã‚¹StreamConnectorã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã—ã¾ã™
 			StreamConnector stdin_to_socket =
 				new StreamConnector(System.in, serverOutput);
 			StreamConnector socket_to_stdout =
 				new StreamConnector(serverInput, System.out);
-			// ƒXƒŒƒbƒh‚ğ¶¬‚µ‚Ü‚·
+			// ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’ç”Ÿæˆã—ã¾ã™
 			Thread input_thread = new Thread(stdin_to_socket);
 			Thread output_thread = new Thread(socket_to_stdout);
-			// ƒXƒŒƒbƒh‚ğ‹N“®‚µ‚Ü‚·
+			// ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’èµ·å‹•ã—ã¾ã™
 			input_thread.start();
 			output_thread.start();
 		}
@@ -77,49 +75,49 @@ public class Telnet {
 		}
 	}
 
-	// ƒlƒSƒVƒG[ƒVƒ‡ƒ“‚É—p‚¢‚éƒRƒ}ƒ“ƒh‚Ì’è‹`
+	// ãƒã‚´ã‚·ã‚¨ãƒ¼ã‚·ãƒ§ãƒ³ã«ç”¨ã„ã‚‹ã‚³ãƒãƒ³ãƒ‰ã®å®šç¾©
 	static final byte IAC = (byte) 255;
 	static final byte DONT = (byte) 254;
 	static final byte DO = (byte) 253;
 	static final byte WONT = (byte) 252;
 	static final byte WILL = (byte) 251;
 
-	// negotiationƒƒ\ƒbƒh
-	// NVT ‚É‚æ‚é’ÊM‚ğƒlƒSƒVƒG[ƒg‚µ‚Ü‚·
+	// negotiationãƒ¡ã‚½ãƒƒãƒ‰
+	// NVT ã«ã‚ˆã‚‹é€šä¿¡ã‚’ãƒã‚´ã‚·ã‚¨ãƒ¼ãƒˆã—ã¾ã™
 	static void negotiation(
 		BufferedInputStream in,OutputStream out)
 		throws IOException
 	{
-		byte[] buff = new byte[3];//ƒRƒ}ƒ“ƒhóM—p”z—ñ
+		byte[] buff = new byte[3];//ã‚³ãƒãƒ³ãƒ‰å—ä¿¡ç”¨é…åˆ—
 		while(true) {
 			in.mark(buff.length);
 			if (in.available() >= buff.length) {
 				in.read(buff);
-				if (buff[0] != IAC){// ƒlƒSƒVƒG[ƒVƒ‡ƒ“I—¹
+				if (buff[0] != IAC){// ãƒã‚´ã‚·ã‚¨ãƒ¼ã‚·ãƒ§ãƒ³çµ‚äº†
 					in.reset();
 					return;
-				} else if (buff[1] == DO) {//DOƒRƒ}ƒ“ƒh‚É‘Î‚µ‚Ä‚Íc
-					buff[1] = WONT;// WON'T‚Å•Ô“š‚µ‚Ü‚·
+				} else if (buff[1] == DO) {//DOã‚³ãƒãƒ³ãƒ‰ã«å¯¾ã—ã¦ã¯â€¦
+					buff[1] = WONT;// WON'Tã§è¿”ç­”ã—ã¾ã™
 					out.write(buff);
 				}
 			}
 		}
 	}
 
-	// mainƒƒ\ƒbƒh
-	// TCP ƒRƒlƒNƒVƒ‡ƒ“‚ğŠJ‚¢‚Äˆ—‚ğŠJn‚µ‚Ü‚·
+	// mainãƒ¡ã‚½ãƒƒãƒ‰
+	// TCP ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ã‚’é–‹ã„ã¦å‡¦ç†ã‚’é–‹å§‹ã—ã¾ã™
 	public static void main(String[] arg){
 		try {
 			Telnet t = null;
-			// ˆø”‚ÌŒÂ”‚É‚æ‚Á‚ÄƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ªˆÙ‚È‚è‚Ü‚·
+			// å¼•æ•°ã®å€‹æ•°ã«ã‚ˆã£ã¦ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ãŒç•°ãªã‚Šã¾ã™
 			switch (arg.length){
-			case 1:// ƒT[ƒoƒAƒhƒŒƒX‚Ì‚İ‚Ìw’è
+			case 1:// ã‚µãƒ¼ãƒã‚¢ãƒ‰ãƒ¬ã‚¹ã®ã¿ã®æŒ‡å®š
 				t = new Telnet(arg[0]);
 				break;
-			case 2:// ƒAƒhƒŒƒX‚Æƒ|[ƒg‚Ìw’è
+			case 2:// ã‚¢ãƒ‰ãƒ¬ã‚¹ã¨ãƒãƒ¼ãƒˆã®æŒ‡å®š
 				t = new Telnet(arg[0], Integer.parseInt(arg[1]));
 				break;
-			default:// g‚¢•û‚ªŠÔˆá‚Á‚Ä‚¢‚éê‡
+			default:// ä½¿ã„æ–¹ãŒé–“é•ã£ã¦ã„ã‚‹å ´åˆ
 				System.out.println(
 					"usage: java Telnet <host name> {<port number>}");
 				return;
@@ -133,3 +131,33 @@ public class Telnet {
 	}
 }
 
+// StreamConnectorã‚¯ãƒ©ã‚¹
+// ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚’å—ã‘å–ã‚Š,ä¸¡è€…ã‚’çµåˆã—ã¦ãƒ‡ãƒ¼ã‚¿ã‚’å—ã‘æ¸¡ã—ã¾ã™
+// StreamConnectorã‚¯ãƒ©ã‚¹ã¯ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’æ§‹æˆã™ã‚‹ãŸã‚ã®ã‚¯ãƒ©ã‚¹ã§ã™
+class StreamConnector implements Runnable {
+	InputStream src = null;
+	OutputStream dist = null;
+
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿å…¥å‡ºåŠ›ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚’å—ã‘å–ã‚Šã¾ã™
+	public StreamConnector(InputStream in, OutputStream out){
+		src = in;
+		dist = out;
+	}
+	// å‡¦ç†ã®æœ¬ä½“
+	// ã‚¹ãƒˆãƒªãƒ¼ãƒ ã®èª­ã¿æ›¸ãã‚’ç„¡é™ã«ç¹°ã‚Šè¿”ã—ã¾ã™
+	public void run(){
+		byte[] buff = new byte[1024];
+		while (true) {
+			try {
+				int n = src.read(buff);
+				if (n > 0)
+					dist.write(buff, 0, n);
+			}
+			catch(Exception e){
+				e.printStackTrace();
+				System.err.print(e);
+				System.exit(1);
+			}
+		}
+	}
+}
