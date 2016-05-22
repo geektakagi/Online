@@ -227,11 +227,14 @@ class console implements Runnable
 						Vector<Socket> connections = ChatServer.getConnections();
 						if (connections != null)
 						{ // コネクションがあれば実行します
+							int connectionCount = 0;
 							for (Enumeration<Socket> e = connections.elements();
 									e.hasMoreElements() ;)
 							{
-								System.out.println(e.nextElement());								
+								System.out.println(e.nextElement());
+								connectionCount++;
 							}
+							System.out.println("Connections : " + connectionCount);
 						} 
 						else 
 						{
@@ -259,6 +262,7 @@ class console implements Runnable
 			}
 			scan.close();
 			//clientProc.deleteallconnections();
+			System.out.println("Server Closed.");
 			System.exit(0);
 		}
 	}
