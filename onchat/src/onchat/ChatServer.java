@@ -1,12 +1,11 @@
 
-package onchat;
 // チャットサーバChatServer.java
 // このプログラムは,チャットのサーバプログラムです
 // 使い方java ChatServer [ポート番号]
 // ポート番号を省略すると,ポート番号6000 番を使います
 // 起動の例java ChatServer
 // 終了にはコントロールC を入力してください
-//2回目
+
 // このサーバへの接続にはTelnet.javaなどを使ってください
 // 接続を止めたいときには,行頭でquitと入力してください
 
@@ -30,11 +29,17 @@ public class ChatServer {
 	static ServerSocket serverSocket;
 	static Vector connections;
 
+	String arg;
 
-	public static void main(String[] arg){
+	ChatServer(String argsa)
+	{
+		arg = argsa;
+	}
 
+	public void run()
+	{
 		int port = DEFAULT_PORT ;
-		if (arg.length > 0) port = Integer.parseInt(arg[0]) ;
+		port = Integer.parseInt(arg) ;
 
 		try
 		{
@@ -64,6 +69,8 @@ public class ChatServer {
 				System.err.println(e);
 			}
 		}
+	
+	
 	}
 
 	// sendAllメソッド
