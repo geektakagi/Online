@@ -1,14 +1,6 @@
 package onchat;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
-import java.awt.GridLayout;
-import java.awt.FlowLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.Label;
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.ActionListener;
@@ -20,14 +12,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
 import javax.swing.JButton;
-import javax.swing.JTextPane;
-import javax.swing.JSplitPane;
-import javax.swing.BoxLayout;
-import javax.swing.JTextArea;
-import javax.swing.JList;
 import javax.swing.JScrollPane;
-import javax.swing.border.LineBorder;
-import javax.swing.JScrollBar;
 import javax.swing.SwingConstants;
 import javax.swing.JLabel;
 import javax.swing.JFrame;
@@ -35,15 +20,18 @@ import javax.swing.JPanel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JMenu;
-import javax.swing.JOptionPane;
 
 public class Client extends JFrame {
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2L;
 	private JPanel contentPane;
 	private JTextField textField;
 	private static JLabel label = new JLabel("");
 	private static String sendStr = "";
 	private static String Name;
+	private static Connection connection = null;
 
 	// Launch the application.
 	public static void main(String[] args) {
@@ -68,7 +56,7 @@ public class Client extends JFrame {
 	}
 
 	public static void chatWrite(String receiveStr){
-		String str = new String("<html>" + " > "+ receiveStr + "<br>");
+		String str = new String("<html>" + receiveStr + "<br>");
 		str += label.getText();
 		label.setText(str);
 	}
@@ -124,11 +112,13 @@ public class Client extends JFrame {
 		mntmConnect.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e){
-				// connect to the server
-				Connection c = new Connection("localhost");				
+				// connect to the server							
 				try {
+					Connection c = new Connection("localhost");
 					c.openConnection();
 					c.main_proc();
+					
+					Client.setConnection(c);
 					
 					Client.chatWrite("Connected to the server");
 				} catch (IOException e1) {
@@ -145,11 +135,7 @@ public class Client extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(textField.getText() != ""){
-					sendStr = textField.getText();
-					
-					String str = new String("<html>" + Name + " > "+ textField.getText() + "<br>");
-					str += label.getText();
-					label.setText(str);
+					Client.connection.sendMessage(textField.getText());
 					textField.setText("");
 				}	
 			}
@@ -158,13 +144,9 @@ public class Client extends JFrame {
 		textField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if(e.getKeyCode() == e.VK_ENTER){
+				if(e.getKeyCode() == KeyEvent.VK_ENTER){
 					if(textField.getText() != ""){
-						sendStr = textField.getText();
-						
-						String str = new String("<html>" + Name + " > "+ textField.getText() + "<br>");
-						str += label.getText();
-						label.setText(str);
+						Client.connection.sendMessage(textField.getText());
 						textField.setText("");
 
 					}
@@ -174,5 +156,9 @@ public class Client extends JFrame {
 		});
 		
 		
+	}
+
+	protected static void setConnection(Connection c) {
+		connection = c;		
 	}
 }

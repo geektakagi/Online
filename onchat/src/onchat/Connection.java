@@ -32,6 +32,19 @@ public class Connection {
 		return serverOutput;
 	}
 
+	public void sendMessage(String msg) {
+		try {
+			OutputStream output = serverSocket.getOutputStream();
+			PrintWriter writer = new PrintWriter(output);
+
+			writer.println(msg);
+			writer.flush();
+		}
+		catch(Exception err) { 
+			Client.chatWrite("ERROR>" + err + "\n"); 
+		}
+	}
+
 	// openConnectionメソッド
 	//アドレスとポート番号からソケットを作りストリームを作成します
 	public void openConnection()
@@ -49,15 +62,14 @@ public class Connection {
 		throws IOException
 	{
 		try {			
-			ChatStringTransmitter textfieldToSocket 
-				= new ChatStringTransmitter(serverOutput);
+			// ChatStringTransmitter textfieldToSocket = new ChatStringTransmitter(serverOutput);
 			ChatStringReceiver socketToTextfield
 				= new ChatStringReceiver(serverInput);			
 
-			Thread input_thread = new Thread(textfieldToSocket);
+			// Thread input_thread = new Thread(textfieldToSocket);
 			Thread output_thread = new Thread(socketToTextfield);
 			// スレッドを起動します
-			input_thread.start();
+			// input_thread.start();
 			output_thread.start();
 		}
 		catch(Exception e){
