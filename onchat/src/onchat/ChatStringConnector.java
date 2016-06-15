@@ -17,16 +17,12 @@ class ChatStringTransmitter implements Runnable {
 			try {
 				// int strLen = src.read(buff);
 				String sendStr = Client.getTextFieldStrings();
-				buff = sendStr.getBytes();
-				int strLen = sendStr.getBytes().length;
 				
 				if(sendStr.length() > 0){
-					Client.chatWrite("send message to the server. sendStr = " + sendStr);
-					Client.chatWrite("strLen = " + strLen);
-				}
-
-				if (strLen > 0)
+					InputStream src = new ByteArrayInputStream(sendStr.getBytes("utf-8"));
+					int strLen = src.read(buff);
 					dist.write(buff, 0, strLen);
+				}					
 				
 			}
 			catch(Exception e){
@@ -54,7 +50,7 @@ class ChatStringReceiver implements Runnable {
 			try {
 				int n = src.read(buff);
 				if (n > 0){
-					String receiveStr = new String(buff, "UTF-8");
+					String receiveStr = new String(buff, 0, n, "UTF-8");
 					Client.chatWrite(receiveStr);
 				}
 			}

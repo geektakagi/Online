@@ -150,15 +150,21 @@ class clientProc implements Runnable
 		try {
 			while (name == null)
 			{
-				out.print("お名前は？: ");
+				String sendStr = "あなたのお名前は？";
+				sendStr = new String(sendStr.getBytes("UTF-8"), "UTF-8");
+				out.println(sendStr);
 				out.flush();
 				name = in.readLine();
 			}
+			
+			String sendStr = "welcome " + name;
+			sendStr = new String(sendStr.getBytes("UTF-8"), "UTF-8");
+			ChatServer.sendAll(sendStr);
 
 			String line = in.readLine();
 			while (!"quit".equals(line))
 			{
-				String sendStr = name + "> " + line;
+				sendStr = name + "> " + line;
 				sendStr = new String(sendStr.getBytes("UTF-8"), "UTF-8");
 				ChatServer.sendAll(sendStr);
 				line = in.readLine();
