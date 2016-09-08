@@ -30,7 +30,13 @@ public class Serverfile
 {
 	public static void main(String[] args)
 	{
-		Thread Chat = new ChatServer(args[0]);
+		if (args.size() != 0) {
+			Thread Chat = new ChatServer(args[0]);
+		}
+		else {
+			Thread Chat = new ChatServer();
+		}
+		
 		Chat.start();
 		
 		Thread Fileserver = new SocketServer();
