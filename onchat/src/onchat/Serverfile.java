@@ -27,7 +27,7 @@ import java.util.Vector;
 public class ChatServer {
 	static final int DEFAULT_PORT = 4820;//ポート番号省略時は6000 番を使います
 	static ServerSocket serverSocket;
-	static Vector connections;
+	static Vector<Socket> connections;
 
 
 	public static void main(String[] arg){
@@ -74,13 +74,14 @@ public class ChatServer {
 	{
 		if (connections != null)
 		{// コネクションがあれば実行します
-			for (Enumeration e = connections.elements();
+			for (Enumeration<Socket> e = connections.elements();
 					e.hasMoreElements() ;)
 			{
 				try
 				{
+					String sendStr= new String(s.getBytes("UTF-8"), "UTF-8");
 					PrintWriter pw = new PrintWriter(((Socket) e.nextElement()).getOutputStream());
-					pw.println(s);
+					pw.println(sendStr);
 					pw.flush();
 				}
 				catch (IOException ex){}
@@ -96,7 +97,7 @@ public class ChatServer {
 	{
 		if (connections == null)
 		{
-			connections = new Vector();
+			connections = new Vector<Socket>();
 		}
 		connections.addElement(s);
 		
@@ -111,6 +112,7 @@ public class ChatServer {
 		if (connections != null)
 		{
 			connections.removeElement(s);
+			System.err.println("connection deleted:" + s);
 		}
 	}
 
@@ -148,15 +150,23 @@ class clientProc implements Runnable
 		try {
 			while (name == null)
 			{
-				out.print("お名前は？: ");
+				String sendStr = "あなたのお名前は？";
+				sendStr = new String(sendStr.getBytes("UTF-8"), "UTF-8");
+				out.println(sendStr);
 				out.flush();
 				name = in.readLine();
 			}
+			
+			String sendStr = "welcome " + name;
+			sendStr = new String(sendStr.getBytes("UTF-8"), "UTF-8");
+			ChatServer.sendAll(sendStr);
 
 			String line = in.readLine();
 			while (!"quit".equals(line))
 			{
-				ChatServer.sendAll(name + "> " +line);
+				sendStr = name + "> " + line;
+				sendStr = new String(sendStr.getBytes("UTF-8"), "UTF-8");
+				ChatServer.sendAll(sendStr);
 				line = in.readLine();
 			}
 			ChatServer.deleteConnection(s);
@@ -171,7 +181,8 @@ class clientProc implements Runnable
 			catch (IOException e2){}
 		}
 	}
-	
+
+/*
 	
 	private void deleteConnection()
 	{
@@ -179,10 +190,11 @@ class clientProc implements Runnable
 		{
 			ChatServer.deleteConnection(s);
 			s.close();
+			
 		}
 		catch (IOException e){}
 	}
-/*
+	
 	public static void deleteallconnections(){
 		deleteConnection();
 	}
@@ -221,11 +233,14 @@ class console implements Runnable
 						Vector<Socket> connections = ChatServer.getConnections();
 						if (connections != null)
 						{ // コネクションがあれば実行します
+							int connectionCount = 0;
 							for (Enumeration<Socket> e = connections.elements();
 									e.hasMoreElements() ;)
 							{
-								System.out.println(e.nextElement());								
+								System.out.println(e.nextElement());
+								connectionCount++;
 							}
+							System.out.println("Connections : " + connectionCount);
 						} 
 						else 
 						{
@@ -251,7 +266,9 @@ class console implements Runnable
 				
 				com=scan.next();
 			}
+			scan.close();
 			//clientProc.deleteallconnections();
+			System.out.println("Server Closed.");
 			System.exit(0);
 		}
 	}
