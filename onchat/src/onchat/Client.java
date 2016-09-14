@@ -87,18 +87,9 @@ public class Client extends JFrame {
 		
 		textField = new JTextField();
 		textField.setFont(new Font("Tahoma", Font.PLAIN, 40));		
-		textField.setBounds(17, 17, 486, 45);
+		textField.setBounds(17, 17, 578, 45);
 		contentPane.add(textField);
 		textField.setColumns(30);
-		
-		JButton btnSend = new JButton("Send");		
-		btnSend.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-
-		btnSend.setBounds(520, 32, 75, 31);
-		contentPane.add(btnSend);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(17, 81, 578, 756);
@@ -127,17 +118,6 @@ public class Client extends JFrame {
 					System.err.print(e);
 				}
 				
-			}
-		});
-		
-		
-		btnSend.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if(textField.getText() != ""){
-					Client.connection.sendMessage(textField.getText());
-					textField.setText("");
-				}	
 			}
 		});
 		
