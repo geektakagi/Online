@@ -1,4 +1,4 @@
-package onchat;
+﻿package onchat;
 // チャットサーバChatServer.java
 // このプログラムは,チャットのサーバプログラムです
 // 使い方java ChatServer [ポート番号]
