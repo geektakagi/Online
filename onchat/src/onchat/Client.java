@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.awt.event.KeyEvent;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
-import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.JLabel;
@@ -20,7 +19,6 @@ import javax.swing.JPanel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JMenu;
-
 public class Client extends JFrame {
 	/**
 	 * 
@@ -61,6 +59,18 @@ public class Client extends JFrame {
 		label.setText(str);
 	}
 	
+	protected static void disconnectingServer() {
+		if(connection != null) {
+			connection.sendMessage("quit");
+			connection = null;
+		}		
+	}
+	
+
+	protected static void setConnection(Connection c) {
+		connection = c;		
+	}
+	
 	// Create the frame.
 	public Client() {
 		Name = new String("Renet");
@@ -78,6 +88,15 @@ public class Client extends JFrame {
 		
 		JMenuItem mntmConnectionInfo = new JMenuItem("Connection info");
 		mnConnections.add(mntmConnectionInfo);
+		
+		JMenuItem mntmDisconnection = new JMenuItem("Disconnect");
+		mntmDisconnection.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				
+			}
+		});
+		mnConnections.add(mntmDisconnection);
 		
 		
 		contentPane = new JPanel();
@@ -133,12 +152,9 @@ public class Client extends JFrame {
 				}
 				
 			}
-		});
-		
+		});	
 		
 	}
 
-	protected static void setConnection(Connection c) {
-		connection = c;		
-	}
+	
 }
