@@ -2,3 +2,4 @@ textchat/bin/
 *.class
 *.class
 textchat/bin/textchat/text$1.class
+*.class

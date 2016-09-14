@@ -1,11 +1,11 @@
-package onchat;
+
 // チャットサーバChatServer.java
 // このプログラムは,チャットのサーバプログラムです
 // 使い方java ChatServer [ポート番号]
 // ポート番号を省略すると,ポート番号6000 番を使います
 // 起動の例java ChatServer
 // 終了にはコントロールC を入力してください
-//2回目
+
 // このサーバへの接続にはTelnet.javaなどを使ってください
 // 接続を止めたいときには,行頭でquitと入力してください
 
@@ -19,23 +19,131 @@ import java.net.Socket;
 import java.util.Enumeration;
 import java.util.Scanner;
 import java.util.Vector;
+import java.io.FileOutputStream;
+import java.io.FileInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
-
-	// mainメソッド
-	// サーバソケットを作り,クライアントからの接続を待ち受けます
-// ChatServerクラス
-public class ChatServer {
-	static final int DEFAULT_PORT = 4820;//ポート番号省略時は6000 番を使います
-	static ServerSocket serverSocket;
-	static Vector<Socket> connections;
-
-
-	public static void main(String[] arg){
-
-		int port = DEFAULT_PORT ;
-		if (arg.length > 0) port = Integer.parseInt(arg[0]) ;
+public class Serverfile
+{
+	public static void main(String[] args)
+	{
+					System.out.println("サーバーが起動しました");
+		Thread Chat = new ChatServer(args[0]);
+		Chat.start();
+		System.out.println("チャットサーバーが起動しました");
 		
-		System.err.println("Server Starting...");
+		Thread Fileserver = new SocketServer();
+		Fileserver.start();
+		System.out.println("ファイルサーバーが起動しました");
+	}
+}
+
+
+class SocketServer extends Thread 
+{
+	final static int PORT = 8001;	// 待ちうけポート番号
+
+	public void run() 
+	{
+		System.out.println("ファイル受信待機");
+		String outputFilepath = "f.txt";       // 受信先ファイルの保存先
+		byte[] buffer         = new byte[512]; // ふぁいるじゅしんのばっふぁ
+		System.out.println("test");
+		try {
+				//そけっとの準備
+				ServerSocket serverSocket = new ServerSocket(PORT);
+				Socket       socket       = serverSocket.accept();
+				System.out.println("ソケットの準備");
+				// ストリームのゆんび
+				InputStream  inputStream  = socket.getInputStream();
+				OutputStream outputStream = new FileOutputStream(outputFilepath);
+				System.out.println("ストリームの準備完了");
+				System.out.println("受信");
+				// ファイルをストリームにて送信
+				int fileLength;
+				while ((fileLength = inputStream.read(buffer)) > 0) 
+				{
+					outputStream.write(buffer, 0, fileLength);
+					System.out.println("readtest");
+				}
+
+			// I—¹ˆ—
+				outputStream.flush();
+				outputStream.close();
+				inputStream.close();
+				socket.close();
+				serverSocket.close();
+			} 
+			catch (IOException e) 
+			{
+				e.printStackTrace();
+			}
+	}
+	SocketClient sousinn = new SocketClient();	
+}
+
+class SocketClient 
+{
+	final static String HOST = "10.0.9.13"; // 接続先アドレス
+	final static int    PORT = 8001;        // 接続先ポート番号
+
+	public static void sousinn(String[] args) 
+	{
+		String filepath = "f.txt";             // 送信するファイルのパス
+		File   file     = new File(filepath); // 送信するファイルのオブジェクト
+		System.out.println("送信するファイルを認識");
+		byte[] buffer   = new byte[512];      // ファイル送信時のバッファ
+
+		try 
+		{
+			// ソケットの準備
+			Socket socket = new Socket(HOST, PORT);
+			System.out.println("ソケットの準備完了");
+			// ストリームの準備
+			InputStream  inputStream  = new FileInputStream(file);
+			OutputStream outputStream = socket.getOutputStream();
+			System.out.println("ストリームの準備完了");
+			// ファイルをストリームで送信
+			int fileLength;
+			while ((fileLength = inputStream.read(buffer)) > 0) 
+			{
+				outputStream.write(buffer, 0, fileLength);
+			}
+			System.out.println("ファイルを送信");
+
+			// 終了処理
+			outputStream.flush();
+			outputStream.close();
+			inputStream.close();
+			socket.close();
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
+	}
+}
+
+class ChatServer extends Thread 
+{
+	static final int DEFAULT_PORT = 6000;//ポート番号省略時は6000 番を使います
+	static ServerSocket serverSocket;
+	static Vector connections;
+
+	String arg;
+
+	ChatServer(String argsa)
+	{
+		arg = argsa;
+	}
+
+	public void run()
+	{
+		int port = DEFAULT_PORT ;
+		port = Integer.parseInt(arg) ;
 
 		try
 		{
@@ -50,7 +158,6 @@ public class ChatServer {
 		
 		Thread com = new Thread(new console());
 		com.start();
-		System.err.println("Server Started");
 		
 		while (true)
 		{
@@ -66,6 +173,8 @@ public class ChatServer {
 				System.err.println(e);
 			}
 		}
+	
+	
 	}
 
 	// sendAllメソッド
@@ -74,14 +183,13 @@ public class ChatServer {
 	{
 		if (connections != null)
 		{// コネクションがあれば実行します
-			for (Enumeration<Socket> e = connections.elements();
+			for (Enumeration e = connections.elements();
 					e.hasMoreElements() ;)
 			{
 				try
 				{
-					String sendStr= new String(s.getBytes("UTF-8"), "UTF-8");
 					PrintWriter pw = new PrintWriter(((Socket) e.nextElement()).getOutputStream());
-					pw.println(sendStr);
+					pw.println(s);
 					pw.flush();
 				}
 				catch (IOException ex){}
@@ -90,18 +198,16 @@ public class ChatServer {
 		System.out.println(s);
 	}
 
-	// addConnectionメソッド 
+	// addConnectionメソッド
 	// クライアントとの接続を追加します
 
 	public static void addConnection(Socket s)
 	{
 		if (connections == null)
 		{
-			connections = new Vector<Socket>();
+			connections = new Vector();
 		}
 		connections.addElement(s);
-		
-		System.err.println("new connection added");
 	}
 
 	// deleteConnectionメソッド
@@ -112,11 +218,10 @@ public class ChatServer {
 		if (connections != null)
 		{
 			connections.removeElement(s);
-			System.err.println("connection deleted:" + s);
 		}
 	}
 
-	public static Vector<Socket> getConnections()
+		public static Vector<Socket> getConnections()
 	{
 		return connections;
 	}
@@ -127,7 +232,7 @@ public class ChatServer {
 // クライアント処理用スレッドのひな形です
 
 class clientProc implements Runnable
-{
+	{
 	Socket s;
 	BufferedReader in;
 	PrintWriter out;
@@ -150,23 +255,15 @@ class clientProc implements Runnable
 		try {
 			while (name == null)
 			{
-				String sendStr = "あなたのお名前は？";
-				sendStr = new String(sendStr.getBytes("UTF-8"), "UTF-8");
-				out.println(sendStr);
+				out.print("お名前は？: ");
 				out.flush();
 				name = in.readLine();
 			}
-			
-			String sendStr = "welcome " + name;
-			sendStr = new String(sendStr.getBytes("UTF-8"), "UTF-8");
-			ChatServer.sendAll(sendStr);
 
 			String line = in.readLine();
 			while (!"quit".equals(line))
 			{
-				sendStr = name + "> " + line;
-				sendStr = new String(sendStr.getBytes("UTF-8"), "UTF-8");
-				ChatServer.sendAll(sendStr);
+				ChatServer.sendAll(name + "> " +line);
 				line = in.readLine();
 			}
 			ChatServer.deleteConnection(s);
@@ -181,8 +278,7 @@ class clientProc implements Runnable
 			catch (IOException e2){}
 		}
 	}
-
-/*
+	
 	
 	private void deleteConnection()
 	{
@@ -190,11 +286,10 @@ class clientProc implements Runnable
 		{
 			ChatServer.deleteConnection(s);
 			s.close();
-			
 		}
 		catch (IOException e){}
 	}
-	
+/*
 	public static void deleteallconnections(){
 		deleteConnection();
 	}
@@ -213,14 +308,16 @@ class clientProc implements Runnable
 	}
 	*/
 	
-}
 
+}
 //コマンド
+
 class console implements Runnable
 	{
 		public void run(){
 			Scanner scan = new Scanner(System.in);
 			String com = scan.next();
+
 
 			while(!"exit".equals(com))
 			{
@@ -233,14 +330,11 @@ class console implements Runnable
 						Vector<Socket> connections = ChatServer.getConnections();
 						if (connections != null)
 						{ // コネクションがあれば実行します
-							int connectionCount = 0;
 							for (Enumeration<Socket> e = connections.elements();
 									e.hasMoreElements() ;)
 							{
-								System.out.println(e.nextElement());
-								connectionCount++;
+								System.out.println(e.nextElement());								
 							}
-							System.out.println("Connections : " + connectionCount);
 						} 
 						else 
 						{
@@ -253,6 +347,12 @@ class console implements Runnable
 					{
 						System.out.println("list : display all connections.");	
 						System.out.println("help : display this help.");
+						System.out.println("chatport : display port");
+						break;
+					}
+					case "chatport":
+					{
+						System.out.println("用意中");
 						break;
 					}
 
@@ -266,9 +366,7 @@ class console implements Runnable
 				
 				com=scan.next();
 			}
-			scan.close();
 			//clientProc.deleteallconnections();
-			System.out.println("Server Closed.");
 			System.exit(0);
 		}
-	}
+}
