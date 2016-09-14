@@ -1,34 +1,15 @@
 package textchat;
 
-import java.awt.BorderLayout;
-
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import java.awt.GridLayout;
-import java.awt.FlowLayout;
 import javax.swing.JTextField;
 import javax.swing.JButton;
-import javax.swing.JTextPane;
-import javax.swing.JSplitPane;
-import javax.swing.BoxLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.Label;
-import javax.swing.JTextArea;
-import javax.swing.JList;
 import javax.swing.JScrollPane;
-import javax.swing.border.LineBorder;
-import java.awt.Color;
 import javax.swing.JLabel;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.JScrollBar;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.awt.event.KeyAdapter;
@@ -36,6 +17,10 @@ import java.awt.event.KeyEvent;
 
 public class text extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textField;
 
@@ -105,7 +90,7 @@ public class text extends JFrame {
 		textField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if(e.getKeyCode() == e.VK_ENTER){
+				if(e.getKeyCode() == KeyEvent.VK_ENTER){
 					if(textField.getText() != ""){
 						String str = new String("<html>" + Name + " > "+ textField.getText() + "<br>");
 						str += label.getText();
