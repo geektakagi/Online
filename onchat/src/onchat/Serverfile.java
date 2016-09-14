@@ -30,11 +30,14 @@ public class Serverfile
 {
 	public static void main(String[] args)
 	{
+					System.out.println("サーバーが起動しました");
 		Thread Chat = new ChatServer(args[0]);
 		Chat.start();
+		System.out.println("チャットサーバーが起動しました");
 		
 		Thread Fileserver = new SocketServer();
 		Fileserver.start();
+		System.out.println("ファイルサーバーが起動しました");
 	}
 }
 
@@ -43,8 +46,9 @@ class SocketServer extends Thread
 {
 	final static int PORT = 8001;	// 待ちうけポート番号
 
-	public static void main(String[] args) 
+	public void run() 
 	{
+		System.out.println("ファイル受信待機");
 		String outputFilepath = "f.txt";       // 受信先ファイルの保存先
 		byte[] buffer         = new byte[512]; // ふぁいるじゅしんのばっふぁ
 		System.out.println("test");
@@ -78,14 +82,15 @@ class SocketServer extends Thread
 				e.printStackTrace();
 			}
 	}
+	SocketClient sousinn = new SocketClient();	
 }
 
 class SocketClient 
 {
-	final static String HOST = "10.28.232.238"; // 接続先アドレス
+	final static String HOST = "10.0.9.13"; // 接続先アドレス
 	final static int    PORT = 8001;        // 接続先ポート番号
 
-	public static void main(String[] args) 
+	public static void sousinn(String[] args) 
 	{
 		String filepath = "f.txt";             // 送信するファイルのパス
 		File   file     = new File(filepath); // 送信するファイルのオブジェクト
@@ -216,6 +221,11 @@ class ChatServer extends Thread
 		}
 	}
 
+		public static Vector<Socket> getConnections()
+	{
+		return connections;
+	}
+
 }
 
 // clientProcクラス
@@ -298,14 +308,16 @@ class clientProc implements Runnable
 	}
 	*/
 	
-}
 
+}
 //コマンド
+
 class console implements Runnable
 	{
 		public void run(){
 			Scanner scan = new Scanner(System.in);
 			String com = scan.next();
+
 
 			while(!"exit".equals(com))
 			{
@@ -315,8 +327,40 @@ class console implements Runnable
 					case "list":
 					{
 						System.out.println("list");
+						Vector<Socket> connections = ChatServer.getConnections();
+						if (connections != null)
+						{ // コネクションがあれば実行します
+							for (Enumeration<Socket> e = connections.elements();
+									e.hasMoreElements() ;)
+							{
+								System.out.println(e.nextElement());								
+							}
+						} 
+						else 
+						{
+							System.out.println("No connection.");
+						}		
+						break;
 					}
 
+					case "help":
+					{
+						System.out.println("list : display all connections.");	
+						System.out.println("help : display this help.");
+						System.out.println("chatport : display port");
+						break;
+					}
+					case "chatport":
+					{
+						System.out.println("用意中");
+						break;
+					}
+
+					default:
+					{
+						System.out.println("unknown command");
+						System.out.println("show help use \"help\" command ");
+					}
 					
 				}
 				
@@ -325,4 +369,4 @@ class console implements Runnable
 			//clientProc.deleteallconnections();
 			System.exit(0);
 		}
-	}
+}

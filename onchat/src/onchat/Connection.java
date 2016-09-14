@@ -1,4 +1,4 @@
-package onchat;
+﻿package onchat;
 
 import java.net.*;
 import java.io.*;
@@ -24,29 +24,12 @@ public class Connection {
 		this(host, DEFAULT_PORT); // デフォルトポートで接続
 	}
 
-	// TCP コネクションを開いて処理を開始します
-	public static void main(String[] args){
-		try {
-			Connection c = null;
-			// 引数の個数によってコンストラクタが異なります
-			switch (args.length){
-			case 1:// サーバアドレスのみの指定
-				c = new Connection(args[0]);
-				break;
-			case 2:// アドレスとポートの指定
-				c = new Connection(args[0], Integer.parseInt(args[1]));
-				break;
-			default:// 使い方が間違っている場合
-				System.out.println(
-					"usage: java Connection <host name> {<port number>}");
-				return;
-			}
-			c.openConnection();
-			c.main_proc();
-		}catch(Exception e){
-			e.printStackTrace();
-			System.exit(1);
-		}
+	public InputStream getServerInputStream() {
+		return serverInput;
+	}
+
+	public OutputStream getServerOutputStream() {
+		return serverOutput;
 	}
 
 	// openConnectionメソッド
@@ -65,15 +48,14 @@ public class Connection {
 	public void main_proc()
 		throws IOException
 	{
-		try {
-			// スレッド用クラスStreamConnectorのオブジェクトを生成します
-			StreamConnector stdin_to_socket =
-				new StreamConnector(System.in, serverOutput);
-			StreamConnector socket_to_stdout =
-				new StreamConnector(serverInput, System.out);
-			// スレッドを生成します
-			Thread input_thread = new Thread(stdin_to_socket);
-			Thread output_thread = new Thread(socket_to_stdout);
+		try {			
+			ChatStringTransmitter textfieldToSocket 
+				= new ChatStringTransmitter(serverOutput);
+			ChatStringReceiver socketToTextfield
+				= new ChatStringReceiver(serverInput);			
+
+			Thread input_thread = new Thread(textfieldToSocket);
+			Thread output_thread = new Thread(socketToTextfield);
 			// スレッドを起動します
 			input_thread.start();
 			output_thread.start();
