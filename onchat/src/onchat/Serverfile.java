@@ -81,16 +81,18 @@ class SocketServer extends Thread
 			{
 				e.printStackTrace();
 			}
-	}
-	SocketClient sousinn = new SocketClient();	
+			System.out.println("ファイル受信完了");
+			SocketClient sousinn = new SocketClient();
+			sousinn.client();
+	}	
 }
 
 class SocketClient 
 {
 	final static String HOST = "10.0.9.13"; // 接続先アドレス
-	final static int    PORT = 8001;        // 接続先ポート番号
+	final static int    PORT = 8002;        // 接続先ポート番号
 
-	public static void sousinn(String[] args) 
+	public static void client() 
 	{
 		String filepath = "f.txt";             // 送信するファイルのパス
 		File   file     = new File(filepath); // 送信するファイルのオブジェクト
