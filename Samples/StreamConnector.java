@@ -1,6 +1,4 @@
-﻿package onchat;
-
-import java.io.*;
+﻿import java.io.*;
 
 // StreamConnectorクラス
 // ストリームを受け取り,両者を結合してデータを受け渡します
