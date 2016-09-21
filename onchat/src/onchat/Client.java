@@ -93,10 +93,22 @@ public class Client extends JFrame {
 		mntmDisconnection.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				
+				Client.disconnectingServer();
 			}
 		});
 		mnConnections.add(mntmDisconnection);
+		
+		JMenu mnFiles = new JMenu("Files");
+		menuBar.add(mnFiles);
+		
+		JMenuItem mntmFileTransfer = new JMenuItem("File Transfer");
+		mntmFileTransfer.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+			}
+		});
+		mnFiles.add(mntmFileTransfer);
 		
 		
 		contentPane = new JPanel();
@@ -155,6 +167,4 @@ public class Client extends JFrame {
 		});	
 		
 	}
-
-	
 }
